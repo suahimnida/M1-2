@@ -44,6 +44,18 @@ def _client() -> genai.Client:
         raise RuntimeError("GEMINI_API_KEY가 설정되지 않았습니다.")
     return genai.Client(api_key=config.GEMINI_API_KEY)
 
+RETRY_CODES = {429, 500, 503}  # 일시적인 에러만 재시도
+
+def _generate(**kwargs):
+    """일시적 에러가 나면 2초, 4초 기다렸다가 최대 3번까지 시도한다."""
+    for attempt in range(3):
+        try:
+            return _client().models.generate_content(**kwargs)
+        except errors.APIError as e:
+            if e.code not in RETRY_CODES or attempt == 2:
+                raise
+            time.sleep(2 * (attempt + 1))
+
 
 def build_system_prompt(summary_text: str) -> str:
     return SYSTEM_TEMPLATE.format(today=today_kst(), summary=summary_text)
@@ -61,7 +73,7 @@ def chat(summary_text: str, history: List[dict], user_message: str) -> str:
     contents = [_to_content(m["role"], m["content"]) for m in history[-HISTORY_LIMIT:]]
     contents.append(_to_content("user", user_message))
 
-    res = _client().models.generate_content(
+    res = _generate(
         model=config.GEMINI_MODEL,
         contents=contents,
         config=types.GenerateContentConfig(
@@ -71,7 +83,6 @@ def chat(summary_text: str, history: List[dict], user_message: str) -> str:
     )
     return (res.text or "").strip()
 
-
 def generate_playlist(entry: dict) -> List[dict]:
     prompt = (
         f"오늘 사용자는 스트레스 {entry.get('stress')}/10, 컨디션 {entry.get('value')}/10, "
@@ -80,7 +91,7 @@ def generate_playlist(entry: dict) -> List[dict]:
         "한국 곡과 해외 곡을 섞어 줘. 가사는 쓰지 마.\n"
         '{"songs": [{"title": "곡명", "artist": "아티스트", "reason": "추천 이유 한 문장"}]} 형식으로 답해.'
     )
-    res = _client().models.generate_content(
+    res = _generate(
         model=config.GEMINI_MODEL,
         contents=prompt,
         config=types.GenerateContentConfig(
