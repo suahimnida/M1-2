@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>껌냥이 트레이너</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐈‍⬛</text></svg>" />
+</head>
+<body data-tab="chat">
+  <div id="wake-banner" class="wake" hidden>
+    서버를 깨우는 중이에요. 무료 서버라 첫 접속은 최대 1분 정도 걸릴 수 있어요.
+  </div>
+
+  <div class="app">
+    <!-- 왼쪽: 껌냥이 + 요약 + 대화 기록 -->
+    <aside class="rail panel" data-panel="rail">
+      <div class="cat-card">
+        <svg id="cat" class="cat" viewBox="0 0 200 170" role="img" aria-label="껌냥이">
+          <path class="cat-head" d="M30 150 C 20 95, 30 60, 40 22 L 72 52 C 90 46, 110 46, 128 52 L 160 22 C 170 60, 180 95, 170 150 Z" />
+          <path class="cat-ear-in" d="M46 40 L 66 58 L 50 66 Z" />
+          <path class="cat-ear-in" d="M154 40 L 134 58 L 150 66 Z" />
+          <g class="eyes">
+            <ellipse class="eye" id="eye-l" cx="72" cy="98" rx="17" ry="17" />
+            <ellipse class="eye" id="eye-r" cx="128" cy="98" rx="17" ry="17" />
+            <ellipse class="pupil" id="pupil-l" cx="72" cy="98" rx="4" ry="13" />
+            <ellipse class="pupil" id="pupil-r" cx="128" cy="98" rx="4" ry="13" />
+            <rect class="lid" id="lid-l" x="52" y="78" width="40" height="0" />
+            <rect class="lid" id="lid-r" x="108" y="78" width="40" height="0" />
+          </g>
+          <path class="cat-nose" d="M94 122 L 106 122 L 100 129 Z" />
+          <path id="sweat" class="sweat" d="M168 70 C 162 82, 162 90, 168 92 C 174 90, 174 82, 168 70 Z" hidden />
+        </svg>
+        <div>
+          <h1>껌냥이 트레이너</h1>
+          <p id="cat-mood" class="cat-mood">기록을 불러오는 중…</p>
+        </div>
+      </div>
+
+      <section class="summary" aria-labelledby="summary-h">
+        <h2 id="summary-h">내 컨디션 요약</h2>
+        <dl id="summary-list" class="summary-list">
+          <div><dt>기간</dt><dd>-</dd></div>
+        </dl>
+      </section>
+
+      <section class="history" aria-labelledby="history-h">
+        <div class="row-between">
+          <h2 id="history-h">이전 대화</h2>
+          <button id="new-chat" class="btn-ghost" type="button">새 대화</button>
+        </div>
+        <ul id="conv-list" class="conv-list"></ul>
+      </section>
+    </aside>
+
+    <!-- 가운데: 채팅 -->
+    <main class="chat panel" data-panel="chat">
+      <header class="chat-head">
+        <h2 id="chat-title">새 대화</h2>
+        <p class="chat-sub">껌냥이는 저장된 컨디션 기록을 보고 대답해요.</p>
+      </header>
+      <div id="messages" class="messages" aria-live="polite">
+        <div class="empty-chat">
+          <p>오늘 몸 상태에 맞춰 뭘 하면 좋을지 물어보세요.</p>
+        </div>
+      </div>
+      <div class="quick">
+        <button type="button" class="chip" data-q="오늘 내 컨디션에 맞는 운동을 추천해줘">오늘 운동 추천</button>
+        <button type="button" class="chip" data-q="지금 내 상태에 좋은 건강 주스 레시피 알려줘">주스 레시피</button>
+        <button type="button" class="chip" data-q="최근 2주 동안 내 컨디션이 어떻게 변했는지 분석해줘">최근 흐름 분석</button>
+      </div>
+      <form id="chat-form" class="chat-form">
+        <label for="chat-input" class="sr-only">메시지</label>
+        <textarea id="chat-input" rows="1" placeholder="껌냥이에게 물어보기" maxlength="2000" required></textarea>
+        <button id="send-btn" class="btn-primary" type="submit">보내기</button>
+      </form>
+    </main>
+
+    <!-- 오른쪽: 컨디션 체크 + 기록 + 음악 -->
+    <section class="records panel" data-panel="records" aria-label="컨디션 기록">
+      <form id="data-form" class="checkin">
+        <div class="row-between">
+          <h2 id="form-title">오늘 컨디션 체크</h2>
+          <button id="cancel-edit" class="btn-ghost" type="button" hidden>수정 취소</button>
+        </div>
+        <label>날짜<input type="date" id="f-date" required /></label>
+        <label class="range">컨디션 <output id="o-value">6</output>
+          <input type="range" id="f-value" min="1" max="10" value="6" />
+        </label>
+        <label class="range">스트레스 <output id="o-stress">5</output>
+          <input type="range" id="f-stress" min="1" max="10" value="5" />
+        </label>
+        <div class="two">
+          <label>수면(시간)<input type="number" id="f-sleep" min="0" max="24" step="0.5" value="7" /></label>
+          <label>오늘의 목적
+            <select id="f-goal">
+              <option>체지방 감량</option><option>근력 강화</option><option>체력 향상</option>
+              <option>유연성</option><option>회복</option>
+            </select>
+          </label>
+        </div>
+        <label>메모<input type="text" id="f-memo" maxlength="300" placeholder="예: 어깨가 좀 뻐근함" /></label>
+        <button id="data-submit" class="btn-primary" type="submit">기록 저장</button>
+        <p id="form-msg" class="form-msg" role="status"></p>
+      </form>
+
+      <section aria-labelledby="list-h">
+        <h2 id="list-h">기록 목록</h2>
+        <ul id="data-list" class="data-list"></ul>
+        <button id="more-data" class="btn-ghost wide" type="button" hidden>더 보기</button>
+      </section>
+
+      <section aria-labelledby="music-h">
+        <h2 id="music-h">스트레스 많은 날 음악</h2>
+        <p class="hint">스트레스 7 이상으로 기록하면 껌냥이가 곡을 골라 자동으로 저장해요.</p>
+        <div id="playlists" class="playlists"></div>
+      </section>
+    </section>
+  </div>
+
+  <nav class="tabbar" aria-label="화면 전환">
+    <button type="button" data-go="chat" aria-current="page">채팅</button>
+    <button type="button" data-go="records">컨디션 기록</button>
+    <button type="button" data-go="rail">요약·대화</button>
+  </nav>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

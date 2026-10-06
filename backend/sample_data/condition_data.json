@@ -1,0 +1,1018 @@
+[
+  {
+    "date": "2026-06-01",
+    "value": 5,
+    "memo": "비 와서 실내 운동",
+    "stress": 5,
+    "sleep_hours": 6.5,
+    "goal": "체력 향상"
+  },
+  {
+    "date": "2026-06-02",
+    "value": 4,
+    "memo": "낮잠 자고 싶다",
+    "stress": 5,
+    "sleep_hours": 7.0,
+    "goal": "회복"
+  },
+  {
+    "date": "2026-06-03",
+    "value": 5,
+    "memo": "평범한 하루",
+    "stress": 5,
+    "sleep_hours": 6.5,
+    "goal": "체지방 감량"
+  },
+  {
+    "date": "2026-06-04",
+    "value": 5,
+    "memo": "산책 30분",
+    "stress": 5,
+    "sleep_hours": 7.5,
+    "goal": "근력 강화"
+  },
+  {
+    "date": "2026-06-05",
+    "value": 6,
+    "memo": "점심 많이 먹음",
+    "stress": 4,
+    "sleep_hours": 5.5,
+    "goal": "체력 향상"
+  },
+  {
+    "date": "2026-06-06",
+    "value": 7,
+    "memo": "",
+    "stress": 3,
+    "sleep_hours": 7.5,
+    "goal": "체력 향상"
+  },
+  {
+    "date": "2026-06-07",
+    "value": 7,
+    "memo": "비 와서 실내 운동",
+    "stress": 4,
+    "sleep_hours": 7.5,
+    "goal": "체력 향상"
+  },
+  {
+    "date": "2026-06-08",
+    "value": 5,
+    "memo": "",
+    "stress": 4,
+    "sleep_hours": 6.0,
+    "goal": "유연성"
+  },
+  {
+    "date": "2026-06-09",
+    "value": 3,
+    "memo": "낮잠 자고 싶다",
+    "stress": 4,
+    "sleep_hours": 5.5,
+    "goal": "회복"
+  },
+  {
+    "date": "2026-06-10",
+    "value": 5,
+    "memo": "",
+    "stress": 5,
+    "sleep_hours": 5.5,
+    "goal": "체력 향상"
+  },
+  {
+    "date": "2026-06-11",
+    "value": 5,
+    "memo": "비 와서 실내 운동",
+    "stress": 5,
+    "sleep_hours": 6.5,
+    "goal": "체지방 감량"
+  },
+  {
+    "date": "2026-06-12",
+    "value": 5,
+    "memo": "비 와서 실내 운동",
+    "stress": 5,
+    "sleep_hours": 7.0,
+    "goal": "근력 강화"
+  },
+  {
+    "date": "2026-06-13",
+    "value": 5,
+    "memo": "비 와서 실내 운동",
+    "stress": 6,
+    "sleep_hours": 7.0,
+    "goal": "체지방 감량"
+  },
+  {
+    "date": "2026-06-14",
+    "value": 7,
+    "memo": "비 와서 실내 운동",
+    "stress": 4,
+    "sleep_hours": 6.5,
+    "goal": "체지방 감량"
+  },
+  {
+    "date": "2026-06-15",
+    "value": 5,
+    "memo": "",
+    "stress": 4,
+    "sleep_hours": 6.5,
+    "goal": "체지방 감량"
+  },
+  {
+    "date": "2026-06-16",
+    "value": 6,
+    "memo": "평범한 하루",
+    "stress": 6,
+    "sleep_hours": 7.5,
+    "goal": "체지방 감량"
+  },
+  {
+    "date": "2026-06-17",
+    "value": 6,
+    "memo": "비 와서 실내 운동",
+    "stress": 4,
+    "sleep_hours": 7.5,
+    "goal": "근력 강화"
+  },
+  {
+    "date": "2026-06-18",
+    "value": 5,
+    "memo": "하체 운동함",
+    "stress": 4,
+    "sleep_hours": 6.0,
+    "goal": "체지방 감량"
+  },
+  {
+    "date": "2026-06-19",
+    "value": 3,
+    "memo": "카페인으로 버팀",
+    "stress": 5,
+    "sleep_hours": 5.5,
+    "goal": "회복"
+  },
+  {
+    "date": "2026-06-20",
+    "value": 10,
+    "memo": "상쾌하게 일어남",
+    "stress": 4,
+    "sleep_hours": 8.0,
+    "goal": "근력 강화"
+  },
+  {
+    "date": "2026-06-21",
+    "value": 8,
+    "memo": "스트레칭 효과 있음",
+    "stress": 1,
+    "sleep_hours": 7.5,
+    "goal": "체력 향상"
+  },
+  {
+    "date": "2026-06-22",
+    "value": 6,
+    "memo": "하체 운동함",
+    "stress": 6,
+    "sleep_hours": 7.0,
+    "goal": "유연성"
+  },
+  {
+    "date": "2026-06-23",
+    "value": 6,
+    "memo": "어깨가 뭉침",
+    "stress": 7,
+    "sleep_hours": 6.5,
+    "goal": "체지방 감량"
+  },
+  {
+    "date": "2026-06-24",
+    "value": 4,
+    "memo": "카페인으로 버팀",
+    "stress": 5,
+    "sleep_hours": 6.0,
+    "goal": "회복"
+  },
+  {
+    "date": "2026-06-25",
+    "value": 3,
+    "memo": "카페인으로 버팀",
+    "stress": 6,
+    "sleep_hours": 7.0,
+    "goal": "회복"
+  },
+  {
+    "date": "2026-06-26",
+    "value": 5,
+    "memo": "과제 마감 압박",
+    "stress": 7,
+    "sleep_hours": 7.0,
+    "goal": "근력 강화"
+  },
+  {
+    "date": "2026-06-27",
+    "value": 7,
+    "memo": "",
+    "stress": 3,
+    "sleep_hours": 8.0,
+    "goal": "체지방 감량"
+  },
+  {
+    "date": "2026-06-28",
+    "value": 7,
+    "memo": "",
+    "stress": 5,
+    "sleep_hours": 6.5,
+    "goal": "유연성"
+  },
+  {
+    "date": "2026-06-29",
+    "value": 6,
+    "memo": "",
+    "stress": 4,
+    "sleep_hours": 6.0,
+    "goal": "유연성"
+  },
+  {
+    "date": "2026-06-30",
+    "value": 6,
+    "memo": "",
+    "stress": 5,
+    "sleep_hours": 7.0,
+    "goal": "유연성"
+  },
+  {
+    "date": "2026-07-01",
+    "value": 7,
+    "memo": "평범한 하루",
+    "stress": 6,
+    "sleep_hours": 7.5,
+    "goal": "체력 향상"
+  },
+  {
+    "date": "2026-07-02",
+    "value": 5,
+    "memo": "하체 운동함",
+    "stress": 3,
+    "sleep_hours": 7.0,
+    "goal": "체지방 감량"
+  },
+  {
+    "date": "2026-07-03",
+    "value": 7,
+    "memo": "평범한 하루",
+    "stress": 4,
+    "sleep_hours": 7.0,
+    "goal": "체력 향상"
+  },
+  {
+    "date": "2026-07-04",
+    "value": 7,
+    "memo": "점심 많이 먹음",
+    "stress": 3,
+    "sleep_hours": 8.0,
+    "goal": "체력 향상"
+  },
+  {
+    "date": "2026-07-05",
+    "value": 6,
+    "memo": "하체 운동함",
+    "stress": 4,
+    "sleep_hours": 6.5,
+    "goal": "근력 강화"
+  },
+  {
+    "date": "2026-07-06",
+    "value": 7,
+    "memo": "비 와서 실내 운동",
+    "stress": 3,
+    "sleep_hours": 7.0,
+    "goal": "체지방 감량"
+  },
+  {
+    "date": "2026-07-07",
+    "value": 7,
+    "memo": "평범한 하루",
+    "stress": 4,
+    "sleep_hours": 6.5,
+    "goal": "체지방 감량"
+  },
+  {
+    "date": "2026-07-08",
+    "value": 6,
+    "memo": "비 와서 실내 운동",
+    "stress": 5,
+    "sleep_hours": 6.0,
+    "goal": "근력 강화"
+  },
+  {
+    "date": "2026-07-09",
+    "value": 6,
+    "memo": "평범한 하루",
+    "stress": 4,
+    "sleep_hours": 7.5,
+    "goal": "체력 향상"
+  },
+  {
+    "date": "2026-07-10",
+    "value": 6,
+    "memo": "산책 30분",
+    "stress": 6,
+    "sleep_hours": 7.0,
+    "goal": "근력 강화"
+  },
+  {
+    "date": "2026-07-11",
+    "value": 5,
+    "memo": "산책 30분",
+    "stress": 4,
+    "sleep_hours": 6.5,
+    "goal": "체지방 감량"
+  },
+  {
+    "date": "2026-07-12",
+    "value": 4,
+    "memo": "몸이 무거움",
+    "stress": 3,
+    "sleep_hours": 5.5,
+    "goal": "회복"
+  },
+  {
+    "date": "2026-07-13",
+    "value": 4,
+    "memo": "카페인으로 버팀",
+    "stress": 6,
+    "sleep_hours": 6.5,
+    "goal": "회복"
+  },
+  {
+    "date": "2026-07-14",
+    "value": 7,
+    "memo": "",
+    "stress": 3,
+    "sleep_hours": 7.0,
+    "goal": "체지방 감량"
+  },
+  {
+    "date": "2026-07-15",
+    "value": 9,
+    "memo": "상쾌하게 일어남",
+    "stress": 4,
+    "sleep_hours": 7.0,
+    "goal": "유연성"
+  },
+  {
+    "date": "2026-07-16",
+    "value": 5,
+    "memo": "머리가 복잡함",
+    "stress": 7,
+    "sleep_hours": 7.5,
+    "goal": "체지방 감량"
+  },
+  {
+    "date": "2026-07-17",
+    "value": 4,
+    "memo": "몸이 무거움",
+    "stress": 6,
+    "sleep_hours": 5.0,
+    "goal": "회복"
+  },
+  {
+    "date": "2026-07-18",
+    "value": 7,
+    "memo": "산책 30분",
+    "stress": 4,
+    "sleep_hours": 7.0,
+    "goal": "체력 향상"
+  },
+  {
+    "date": "2026-07-19",
+    "value": 6,
+    "memo": "산책 30분",
+    "stress": 5,
+    "sleep_hours": 7.0,
+    "goal": "체력 향상"
+  },
+  {
+    "date": "2026-07-20",
+    "value": 2,
+    "memo": "과제 마감 압박",
+    "stress": 9,
+    "sleep_hours": 4.0,
+    "goal": "회복"
+  },
+  {
+    "date": "2026-07-21",
+    "value": 3,
+    "memo": "어깨가 뭉침",
+    "stress": 8,
+    "sleep_hours": 4.5,
+    "goal": "회복"
+  },
+  {
+    "date": "2026-07-22",
+    "value": 4,
+    "memo": "낮잠 자고 싶다",
+    "stress": 6,
+    "sleep_hours": 5.0,
+    "goal": "회복"
+  },
+  {
+    "date": "2026-07-23",
+    "value": 4,
+    "memo": "어깨가 뭉침",
+    "stress": 10,
+    "sleep_hours": 6.5,
+    "goal": "회복"
+  },
+  {
+    "date": "2026-07-24",
+    "value": 3,
+    "memo": "머리가 복잡함",
+    "stress": 10,
+    "sleep_hours": 5.5,
+    "goal": "회복"
+  },
+  {
+    "date": "2026-07-25",
+    "value": 5,
+    "memo": "머리가 복잡함",
+    "stress": 8,
+    "sleep_hours": 7.0,
+    "goal": "체력 향상"
+  },
+  {
+    "date": "2026-07-26",
+    "value": 5,
+    "memo": "점심 많이 먹음",
+    "stress": 5,
+    "sleep_hours": 7.0,
+    "goal": "체지방 감량"
+  },
+  {
+    "date": "2026-07-27",
+    "value": 3,
+    "memo": "발표 준비로 긴장",
+    "stress": 10,
+    "sleep_hours": 5.5,
+    "goal": "회복"
+  },
+  {
+    "date": "2026-07-28",
+    "value": 6,
+    "memo": "",
+    "stress": 5,
+    "sleep_hours": 6.0,
+    "goal": "유연성"
+  },
+  {
+    "date": "2026-07-29",
+    "value": 1,
+    "memo": "할 일이 너무 많음",
+    "stress": 10,
+    "sleep_hours": 3.5,
+    "goal": "회복"
+  },
+  {
+    "date": "2026-07-30",
+    "value": 4,
+    "memo": "발표 준비로 긴장",
+    "stress": 7,
+    "sleep_hours": 5.5,
+    "goal": "회복"
+  },
+  {
+    "date": "2026-07-31",
+    "value": 5,
+    "memo": "비 와서 실내 운동",
+    "stress": 6,
+    "sleep_hours": 6.5,
+    "goal": "유연성"
+  },
+  {
+    "date": "2026-08-01",
+    "value": 10,
+    "memo": "스트레칭 효과 있음",
+    "stress": 2,
+    "sleep_hours": 7.5,
+    "goal": "체력 향상"
+  },
+  {
+    "date": "2026-08-02",
+    "value": 8,
+    "memo": "러닝 기록 갱신",
+    "stress": 4,
+    "sleep_hours": 8.5,
+    "goal": "유연성"
+  },
+  {
+    "date": "2026-08-03",
+    "value": 8,
+    "memo": "러닝 기록 갱신",
+    "stress": 5,
+    "sleep_hours": 7.5,
+    "goal": "체력 향상"
+  },
+  {
+    "date": "2026-08-04",
+    "value": 5,
+    "memo": "발표 준비로 긴장",
+    "stress": 7,
+    "sleep_hours": 6.5,
+    "goal": "체력 향상"
+  },
+  {
+    "date": "2026-08-05",
+    "value": 6,
+    "memo": "",
+    "stress": 4,
+    "sleep_hours": 6.0,
+    "goal": "유연성"
+  },
+  {
+    "date": "2026-08-06",
+    "value": 6,
+    "memo": "비 와서 실내 운동",
+    "stress": 6,
+    "sleep_hours": 7.0,
+    "goal": "체력 향상"
+  },
+  {
+    "date": "2026-08-07",
+    "value": 5,
+    "memo": "비 와서 실내 운동",
+    "stress": 6,
+    "sleep_hours": 6.5,
+    "goal": "근력 강화"
+  },
+  {
+    "date": "2026-08-08",
+    "value": 9,
+    "memo": "스트레칭 효과 있음",
+    "stress": 4,
+    "sleep_hours": 7.5,
+    "goal": "유연성"
+  },
+  {
+    "date": "2026-08-09",
+    "value": 8,
+    "memo": "몸이 가벼움",
+    "stress": 5,
+    "sleep_hours": 8.0,
+    "goal": "근력 강화"
+  },
+  {
+    "date": "2026-08-10",
+    "value": 7,
+    "memo": "점심 많이 먹음",
+    "stress": 6,
+    "sleep_hours": 7.0,
+    "goal": "유연성"
+  },
+  {
+    "date": "2026-08-11",
+    "value": 6,
+    "memo": "",
+    "stress": 5,
+    "sleep_hours": 6.0,
+    "goal": "체지방 감량"
+  },
+  {
+    "date": "2026-08-12",
+    "value": 7,
+    "memo": "평범한 하루",
+    "stress": 4,
+    "sleep_hours": 5.5,
+    "goal": "유연성"
+  },
+  {
+    "date": "2026-08-13",
+    "value": 4,
+    "memo": "할 일이 너무 많음",
+    "stress": 7,
+    "sleep_hours": 6.5,
+    "goal": "회복"
+  },
+  {
+    "date": "2026-08-14",
+    "value": 6,
+    "memo": "",
+    "stress": 5,
+    "sleep_hours": 6.5,
+    "goal": "유연성"
+  },
+  {
+    "date": "2026-08-15",
+    "value": 6,
+    "memo": "평범한 하루",
+    "stress": 3,
+    "sleep_hours": 7.0,
+    "goal": "체지방 감량"
+  },
+  {
+    "date": "2026-08-16",
+    "value": 9,
+    "memo": "몸이 가벼움",
+    "stress": 3,
+    "sleep_hours": 7.5,
+    "goal": "체지방 감량"
+  },
+  {
+    "date": "2026-08-17",
+    "value": 7,
+    "memo": "평범한 하루",
+    "stress": 4,
+    "sleep_hours": 5.5,
+    "goal": "유연성"
+  },
+  {
+    "date": "2026-08-18",
+    "value": 6,
+    "memo": "점심 많이 먹음",
+    "stress": 5,
+    "sleep_hours": 7.0,
+    "goal": "유연성"
+  },
+  {
+    "date": "2026-08-19",
+    "value": 9,
+    "memo": "스트레칭 효과 있음",
+    "stress": 4,
+    "sleep_hours": 8.0,
+    "goal": "체력 향상"
+  },
+  {
+    "date": "2026-08-20",
+    "value": 7,
+    "memo": "점심 많이 먹음",
+    "stress": 5,
+    "sleep_hours": 6.5,
+    "goal": "근력 강화"
+  },
+  {
+    "date": "2026-08-21",
+    "value": 5,
+    "memo": "발표 준비로 긴장",
+    "stress": 7,
+    "sleep_hours": 6.0,
+    "goal": "근력 강화"
+  },
+  {
+    "date": "2026-08-22",
+    "value": 7,
+    "memo": "",
+    "stress": 5,
+    "sleep_hours": 5.5,
+    "goal": "체지방 감량"
+  },
+  {
+    "date": "2026-08-23",
+    "value": 9,
+    "memo": "스트레칭 효과 있음",
+    "stress": 3,
+    "sleep_hours": 8.5,
+    "goal": "유연성"
+  },
+  {
+    "date": "2026-08-24",
+    "value": 7,
+    "memo": "비 와서 실내 운동",
+    "stress": 2,
+    "sleep_hours": 6.0,
+    "goal": "근력 강화"
+  },
+  {
+    "date": "2026-08-25",
+    "value": 5,
+    "memo": "",
+    "stress": 6,
+    "sleep_hours": 6.0,
+    "goal": "체력 향상"
+  },
+  {
+    "date": "2026-08-26",
+    "value": 6,
+    "memo": "점심 많이 먹음",
+    "stress": 4,
+    "sleep_hours": 6.5,
+    "goal": "근력 강화"
+  },
+  {
+    "date": "2026-08-27",
+    "value": 7,
+    "memo": "산책 30분",
+    "stress": 4,
+    "sleep_hours": 7.5,
+    "goal": "체력 향상"
+  },
+  {
+    "date": "2026-08-28",
+    "value": 6,
+    "memo": "",
+    "stress": 3,
+    "sleep_hours": 6.0,
+    "goal": "근력 강화"
+  },
+  {
+    "date": "2026-08-29",
+    "value": 8,
+    "memo": "스트레칭 효과 있음",
+    "stress": 3,
+    "sleep_hours": 7.0,
+    "goal": "체력 향상"
+  },
+  {
+    "date": "2026-08-30",
+    "value": 8,
+    "memo": "러닝 기록 갱신",
+    "stress": 2,
+    "sleep_hours": 7.0,
+    "goal": "근력 강화"
+  },
+  {
+    "date": "2026-08-31",
+    "value": 7,
+    "memo": "하체 운동함",
+    "stress": 4,
+    "sleep_hours": 7.0,
+    "goal": "체력 향상"
+  },
+  {
+    "date": "2026-09-01",
+    "value": 5,
+    "memo": "할 일이 너무 많음",
+    "stress": 7,
+    "sleep_hours": 6.0,
+    "goal": "체지방 감량"
+  },
+  {
+    "date": "2026-09-02",
+    "value": 6,
+    "memo": "하체 운동함",
+    "stress": 5,
+    "sleep_hours": 5.5,
+    "goal": "유연성"
+  },
+  {
+    "date": "2026-09-03",
+    "value": 6,
+    "memo": "비 와서 실내 운동",
+    "stress": 5,
+    "sleep_hours": 7.0,
+    "goal": "체지방 감량"
+  },
+  {
+    "date": "2026-09-04",
+    "value": 8,
+    "memo": "상쾌하게 일어남",
+    "stress": 4,
+    "sleep_hours": 7.0,
+    "goal": "체지방 감량"
+  },
+  {
+    "date": "2026-09-05",
+    "value": 10,
+    "memo": "스트레칭 효과 있음",
+    "stress": 2,
+    "sleep_hours": 8.5,
+    "goal": "체지방 감량"
+  },
+  {
+    "date": "2026-09-06",
+    "value": 8,
+    "memo": "상쾌하게 일어남",
+    "stress": 2,
+    "sleep_hours": 6.5,
+    "goal": "유연성"
+  },
+  {
+    "date": "2026-09-07",
+    "value": 4,
+    "memo": "낮잠 자고 싶다",
+    "stress": 6,
+    "sleep_hours": 5.5,
+    "goal": "회복"
+  },
+  {
+    "date": "2026-09-08",
+    "value": 6,
+    "memo": "",
+    "stress": 5,
+    "sleep_hours": 5.0,
+    "goal": "근력 강화"
+  },
+  {
+    "date": "2026-09-09",
+    "value": 7,
+    "memo": "비 와서 실내 운동",
+    "stress": 4,
+    "sleep_hours": 6.5,
+    "goal": "유연성"
+  },
+  {
+    "date": "2026-09-10",
+    "value": 5,
+    "memo": "",
+    "stress": 6,
+    "sleep_hours": 6.0,
+    "goal": "체력 향상"
+  },
+  {
+    "date": "2026-09-11",
+    "value": 6,
+    "memo": "",
+    "stress": 3,
+    "sleep_hours": 6.0,
+    "goal": "체지방 감량"
+  },
+  {
+    "date": "2026-09-12",
+    "value": 8,
+    "memo": "스트레칭 효과 있음",
+    "stress": 3,
+    "sleep_hours": 7.5,
+    "goal": "근력 강화"
+  },
+  {
+    "date": "2026-09-13",
+    "value": 8,
+    "memo": "몸이 가벼움",
+    "stress": 4,
+    "sleep_hours": 8.0,
+    "goal": "체지방 감량"
+  },
+  {
+    "date": "2026-09-14",
+    "value": 8,
+    "memo": "러닝 기록 갱신",
+    "stress": 4,
+    "sleep_hours": 7.0,
+    "goal": "근력 강화"
+  },
+  {
+    "date": "2026-09-15",
+    "value": 7,
+    "memo": "",
+    "stress": 4,
+    "sleep_hours": 7.0,
+    "goal": "체지방 감량"
+  },
+  {
+    "date": "2026-09-16",
+    "value": 5,
+    "memo": "점심 많이 먹음",
+    "stress": 5,
+    "sleep_hours": 5.0,
+    "goal": "유연성"
+  },
+  {
+    "date": "2026-09-17",
+    "value": 8,
+    "memo": "스트레칭 효과 있음",
+    "stress": 3,
+    "sleep_hours": 6.5,
+    "goal": "체력 향상"
+  },
+  {
+    "date": "2026-09-18",
+    "value": 4,
+    "memo": "눈이 뻑뻑함",
+    "stress": 6,
+    "sleep_hours": 6.5,
+    "goal": "회복"
+  },
+  {
+    "date": "2026-09-19",
+    "value": 8,
+    "memo": "몸이 가벼움",
+    "stress": 5,
+    "sleep_hours": 7.5,
+    "goal": "체력 향상"
+  },
+  {
+    "date": "2026-09-20",
+    "value": 7,
+    "memo": "하체 운동함",
+    "stress": 3,
+    "sleep_hours": 7.5,
+    "goal": "유연성"
+  },
+  {
+    "date": "2026-09-21",
+    "value": 2,
+    "memo": "과제 마감 압박",
+    "stress": 8,
+    "sleep_hours": 4.0,
+    "goal": "회복"
+  },
+  {
+    "date": "2026-09-22",
+    "value": 3,
+    "memo": "머리가 복잡함",
+    "stress": 8,
+    "sleep_hours": 4.5,
+    "goal": "회복"
+  },
+  {
+    "date": "2026-09-23",
+    "value": 3,
+    "memo": "발표 준비로 긴장",
+    "stress": 9,
+    "sleep_hours": 5.5,
+    "goal": "회복"
+  },
+  {
+    "date": "2026-09-24",
+    "value": 4,
+    "memo": "머리가 복잡함",
+    "stress": 8,
+    "sleep_hours": 6.0,
+    "goal": "회복"
+  },
+  {
+    "date": "2026-09-25",
+    "value": 5,
+    "memo": "발표 준비로 긴장",
+    "stress": 8,
+    "sleep_hours": 5.5,
+    "goal": "유연성"
+  },
+  {
+    "date": "2026-09-26",
+    "value": 6,
+    "memo": "",
+    "stress": 6,
+    "sleep_hours": 6.0,
+    "goal": "유연성"
+  },
+  {
+    "date": "2026-09-27",
+    "value": 7,
+    "memo": "평범한 하루",
+    "stress": 3,
+    "sleep_hours": 6.0,
+    "goal": "체지방 감량"
+  },
+  {
+    "date": "2026-09-28",
+    "value": 5,
+    "memo": "머리가 복잡함",
+    "stress": 7,
+    "sleep_hours": 5.5,
+    "goal": "유연성"
+  },
+  {
+    "date": "2026-09-29",
+    "value": 5,
+    "memo": "과제 마감 압박",
+    "stress": 7,
+    "sleep_hours": 5.0,
+    "goal": "체력 향상"
+  },
+  {
+    "date": "2026-09-30",
+    "value": 4,
+    "memo": "발표 준비로 긴장",
+    "stress": 8,
+    "sleep_hours": 6.0,
+    "goal": "회복"
+  },
+  {
+    "date": "2026-10-01",
+    "value": 4,
+    "memo": "머리가 복잡함",
+    "stress": 8,
+    "sleep_hours": 5.5,
+    "goal": "회복"
+  },
+  {
+    "date": "2026-10-02",
+    "value": 7,
+    "memo": "비 와서 실내 운동",
+    "stress": 6,
+    "sleep_hours": 6.5,
+    "goal": "체지방 감량"
+  },
+  {
+    "date": "2026-10-03",
+    "value": 8,
+    "memo": "상쾌하게 일어남",
+    "stress": 3,
+    "sleep_hours": 7.5,
+    "goal": "체력 향상"
+  },
+  {
+    "date": "2026-10-04",
+    "value": 6,
+    "memo": "하체 운동함",
+    "stress": 4,
+    "sleep_hours": 7.0,
+    "goal": "체지방 감량"
+  },
+  {
+    "date": "2026-10-05",
+    "value": 5,
+    "memo": "",
+    "stress": 6,
+    "sleep_hours": 6.0,
+    "goal": "유연성"
+  }
+]

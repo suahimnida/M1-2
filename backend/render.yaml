@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: ggeomnyang-trainer-api
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4o-mini
+      - key: FIREBASE_CREDENTIALS
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false
+      - key: STRESS_THRESHOLD
+        value: "7"
