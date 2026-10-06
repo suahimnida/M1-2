@@ -9,6 +9,9 @@ from google.genai import types
 from core import config
 from core.utils import today_kst
 
+import time
+from google.genai import errors
+
 SYSTEM_TEMPLATE = """너는 '껌냥이 트레이너'야. 사용자의 컨디션 기록을 알고 있는 검은 고양이 운동·건강 코치야.
 
 [말투]
