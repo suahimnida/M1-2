@@ -44,17 +44,24 @@ def _client() -> genai.Client:
         raise RuntimeError("GEMINI_API_KEY가 설정되지 않았습니다.")
     return genai.Client(api_key=config.GEMINI_API_KEY)
 
-RETRY_CODES = {429, 500, 503}  # 일시적인 에러만 재시도
+RETRY_CODES = {429, 500, 503}
 
 def _generate(**kwargs):
-    """일시적 에러가 나면 2초, 4초 기다렸다가 최대 3번까지 시도한다."""
-    for attempt in range(3):
-        try:
-            return _client().models.generate_content(**kwargs)
-        except errors.APIError as e:
-            if e.code not in RETRY_CODES or attempt == 2:
-                raise
-            time.sleep(2 * (attempt + 1))
+    """기본 모델은 1번 재시도, 예비 모델은 쉬지 않고 1번씩 시도한다."""
+    primary = kwargs.pop("model")
+    plan = [(primary, 2)] + [(m, 1) for m in config.GEMINI_FALLBACK_MODELS]
+    last_error = None
+    for model, tries in plan:
+        for attempt in range(tries):
+            try:
+                return _client().models.generate_content(model=model, **kwargs)
+            except errors.APIError as e:
+                last_error = e
+                if e.code not in RETRY_CODES:
+                    break  # 404 등 이 모델은 못 쓰는 경우 → 바로 다음 모델로
+                if attempt < tries - 1:
+                    time.sleep(2)
+    raise last_error
 
 
 def build_system_prompt(summary_text: str) -> str:
