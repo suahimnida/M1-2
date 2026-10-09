@@ -215,6 +215,7 @@ async function loadConversations() {
   } catch (e) {
     ul.innerHTML = `<li class="muted-note">${esc(e.message)}</li>`;
     $("#more-conv").hidden = true;
+    $("#less-conv").hidden = true;
   }
 }
 
@@ -225,6 +226,7 @@ function renderConversations() {
   if (!list.length) {
     ul.innerHTML = `<li class="muted-note">저장된 대화가 없어요. 껌냥이에게 말을 걸면 자동으로 저장돼요.</li>`;
     $("#more-conv").hidden = true;
+    $("#less-conv").hidden = true;
     return;
   }
   const shown = list.slice(0, state.convShown);
@@ -237,21 +239,30 @@ function renderConversations() {
         <button type="button" class="conv-del" aria-label="${esc(c.title)} 삭제">삭제</button>
       </li>`).join("");
   markCurrentConv();
-  updateMoreButton($("#more-conv"), list.length, state.convShown);
+  updateListButtons($("#more-conv"), $("#less-conv"), list.length, state.convShown);
 }
 
-// 남은 게 있으면 "더보기 (+추가될 개수)", 다 펼쳤으면 "접기"
-function updateMoreButton(btn, total, shownCount) {
-  btn.hidden = total <= LIST_LIMIT;
-  const rest = total - shownCount;
-  // 다음에 추가될 개수: 보통 10개, 10개 미만이 남았으면 남은 만큼
-  btn.textContent = rest > 0 ? `더보기 (+${Math.min(LIST_STEP, rest)}개)` : "접기";
-  btn.setAttribute("aria-expanded", rest > 0 ? "false" : "true");
+// 더보기: 다음에 추가될 개수(+N), 줄이기: 다음에 줄어들 개수(-N)
+function updateListButtons(moreBtn, lessBtn, total, shown) {
+  const visible = Math.min(shown, total);
+  const add = Math.min(LIST_STEP, total - visible);
+  const remove = visible - prevShown(visible);
+  moreBtn.hidden = add <= 0;
+  moreBtn.textContent = `더보기 (+${add}개)`;
+  lessBtn.hidden = remove <= 0;
+  lessBtn.textContent = `줄이기 (-${remove}개)`;
 }
 
-// 더보기: 10개씩 추가, 다 보이는 상태에서 누르면 처음 5개로 접기
+// 더보기: 10개씩 늘리기 (전체 개수를 넘지 않게)
 function nextShown(current, total) {
-  return current >= total ? LIST_LIMIT : current + LIST_STEP;
+  return Math.min(total, Math.min(current, total) + LIST_STEP);
+}
+
+// 줄이기: 더보기로 늘어났던 단계를 거꾸로 되돌리기 → 마지막엔 5개
+// 예) 128개 → 125 → 115 → … → 15 → 5
+function prevShown(current) {
+  if (current <= LIST_LIMIT) return LIST_LIMIT;
+  return LIST_LIMIT + Math.floor((current - LIST_LIMIT - 1) / LIST_STEP) * LIST_STEP;
 }
 
 function markCurrentConv() {
@@ -381,6 +392,7 @@ function renderData() {
   if (!state.data.length) {
     ul.innerHTML = `<li class="empty">아직 기록이 없어요. 위에서 오늘 컨디션을 기록해 보세요.</li>`;
     $("#more-data").hidden = true;
+    $("#less-data").hidden = true;
     return;
   }
   const shown = state.data.slice(0, state.dataShown);
@@ -396,7 +408,7 @@ function renderData() {
         ${d.goal ? esc(d.goal) + " · " : ""}스트레스 ${d.stress} · 수면 ${d.sleep_hours}h${d.weight_kg != null ? ` · 몸무게 ${d.weight_kg}kg` : ""}${d.memo ? " · " + esc(d.memo) : ""}
       </span>
     </li>`).join("");
-  updateMoreButton($("#more-data"), state.data.length, state.dataShown);
+  updateListButtons($("#more-data"), $("#less-data"), state.data.length, state.dataShown);
 }
 
 async function loadData() {
@@ -503,6 +515,14 @@ function bindEvents() {
   });
   $("#more-conv").addEventListener("click", () => {
     state.convShown = nextShown(state.convShown, state.convs.length);
+    renderConversations();
+  });
+  $("#less-data").addEventListener("click", () => {
+    state.dataShown = prevShown(Math.min(state.dataShown, state.data.length));
+    renderData();
+  });
+  $("#less-conv").addEventListener("click", () => {
+    state.convShown = prevShown(Math.min(state.convShown, state.convs.length));
     renderConversations();
   });
 
