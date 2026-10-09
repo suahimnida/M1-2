@@ -1,10 +1,14 @@
 const API = (window.APP_CONFIG && window.APP_CONFIG.API_URL) || "http://localhost:8000";
 const $ = (sel) => document.querySelector(sel);
 
+const LIST_LIMIT = 5;   // 이전 대화·기록 목록은 처음에 5개까지만 보여줌
+
 const state = {
   conversationId: null,
   data: [],
-  dataShown: 20,
+  convs: [],
+  dataExpanded: false,   // 기록 목록 전체 펼침 여부
+  convExpanded: false,   // 이전 대화 전체 펼침 여부
   editingId: null,
   sending: false,
 };
@@ -205,12 +209,25 @@ function newChat() {
 async function loadConversations() {
   const ul = $("#conv-list");
   try {
-    const list = await api("/api/conversations");
-    if (!list.length) {
-      ul.innerHTML = `<li class="muted-note">저장된 대화가 없어요. 껌냥이에게 말을 걸면 자동으로 저장돼요.</li>`;
-      return;
-    }
-    ul.innerHTML = list.map((c) => `
+    state.convs = await api("/api/conversations");
+    renderConversations();
+  } catch (e) {
+    ul.innerHTML = `<li class="muted-note">${esc(e.message)}</li>`;
+    $("#more-conv").hidden = true;
+  }
+}
+
+// 5개를 넘으면 5개만 보여주고 아래에 더보기 버튼
+function renderConversations() {
+  const ul = $("#conv-list");
+  const list = state.convs;
+  if (!list.length) {
+    ul.innerHTML = `<li class="muted-note">저장된 대화가 없어요. 껌냥이에게 말을 걸면 자동으로 저장돼요.</li>`;
+    $("#more-conv").hidden = true;
+    return;
+  }
+  const shown = state.convExpanded ? list : list.slice(0, LIST_LIMIT);
+  ul.innerHTML = shown.map((c) => `
       <li class="conv-item" data-id="${esc(c.id)}">
         <button type="button" class="conv-open">
           <strong>${esc(c.title)}</strong>
@@ -218,10 +235,15 @@ async function loadConversations() {
         </button>
         <button type="button" class="conv-del" aria-label="${esc(c.title)} 삭제">삭제</button>
       </li>`).join("");
-    markCurrentConv();
-  } catch (e) {
-    ul.innerHTML = `<li class="muted-note">${esc(e.message)}</li>`;
-  }
+  markCurrentConv();
+  updateMoreButton($("#more-conv"), list.length, state.convExpanded);
+}
+
+// 더보기 ↔ 접기 버튼 상태
+function updateMoreButton(btn, total, expanded) {
+  btn.hidden = total <= LIST_LIMIT;
+  btn.textContent = expanded ? "접기" : `더보기 (${total - LIST_LIMIT}개 더)`;
+  btn.setAttribute("aria-expanded", expanded ? "true" : "false");
 }
 
 function markCurrentConv() {
@@ -353,7 +375,8 @@ function renderData() {
     $("#more-data").hidden = true;
     return;
   }
-  ul.innerHTML = state.data.slice(0, state.dataShown).map((d) => `
+  const shown = state.dataExpanded ? state.data : state.data.slice(0, LIST_LIMIT);
+  ul.innerHTML = shown.map((d) => `
     <li class="data-item" data-id="${esc(d.id)}">
       <span class="score" aria-label="컨디션 ${d.value}점">${d.value}</span>
       <span>${esc(d.date)}</span>
@@ -365,7 +388,7 @@ function renderData() {
         ${d.goal ? esc(d.goal) + " · " : ""}스트레스 ${d.stress} · 수면 ${d.sleep_hours}h${d.weight_kg != null ? ` · 몸무게 ${d.weight_kg}kg` : ""}${d.memo ? " · " + esc(d.memo) : ""}
       </span>
     </li>`).join("");
-  $("#more-data").hidden = state.data.length <= state.dataShown;
+  updateMoreButton($("#more-data"), state.data.length, state.dataExpanded);
 }
 
 async function loadData() {
@@ -466,7 +489,14 @@ function bindEvents() {
     const id = btn.closest(".data-item").dataset.id;
     btn.dataset.act === "edit" ? startEdit(id) : deleteData(id);
   });
-  $("#more-data").addEventListener("click", () => { state.dataShown += 20; renderData(); });
+  $("#more-data").addEventListener("click", () => {
+    state.dataExpanded = !state.dataExpanded;
+    renderData();
+  });
+  $("#more-conv").addEventListener("click", () => {
+    state.convExpanded = !state.convExpanded;
+    renderConversations();
+  });
 
   document.querySelectorAll(".tabbar button").forEach((b) =>
     b.addEventListener("click", () => switchTab(b.dataset.go)));
