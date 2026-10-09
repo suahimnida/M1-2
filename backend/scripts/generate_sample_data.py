@@ -5,6 +5,7 @@
 - 마감 주간(7월 말, 9월 말)엔 수면이 줄고 스트레스가 치솟는다
 - 수면 부족 → 스트레스 상승 → 컨디션 하락
 - 운동 습관이 붙으면서 컨디션이 서서히 오른다
+- 몸무게는 64kg에서 서서히 줄다가, 마감 주간엔 살짝 늘어난다
 
 실행: python scripts/generate_sample_data.py
 """
@@ -39,6 +40,7 @@ def in_crunch(d):
 
 def generate():
     rows = []
+    weight = 64.0
     days = (END - START).days + 1
     for i in range(days):
         d = START + timedelta(days=i)
@@ -69,12 +71,17 @@ def generate():
         else:
             memo = random.choice(MEMOS["normal"])
 
+        # 몸무게: 평소엔 하루 약 0.025kg 감소, 마감 주간엔 야식으로 증가
+        weight += (0.06 if crunch else -0.025) + random.gauss(0, 0.05)
+        weight_kg = round(weight + random.gauss(0, 0.25), 1)
+
         rows.append({
             "date": d.isoformat(),
             "value": cond,
             "memo": memo,
             "stress": stress,
             "sleep_hours": sleep,
+            "weight_kg": weight_kg,
             "goal": goal,
         })
     return rows

@@ -23,11 +23,11 @@ def chat(body: ChatRequest):
             raise HTTPException(404, "대화를 찾을 수 없습니다.")
         history = conv.get("messages", [])
 
-    # 3) 요약을 시스템 프롬프트에 넣어 GPT 호출
+    # 3) 요약을 시스템 프롬프트에 넣어 AI 호출 (버튼 요청이면 mode에 맞는 작업 지시)
     try:
-        reply = ai_service.chat(summary["text"], history, body.message)
+        reply = ai_service.chat(summary["text"], history, body.message, body.mode)
     except Exception as e:
-        logger.exception("OpenAI 호출 실패")
+        logger.exception("AI 호출 실패")
         raise HTTPException(502, f"AI 응답을 받지 못했습니다: {e}")
 
     # 4) conversations에 자동 저장

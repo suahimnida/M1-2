@@ -11,6 +11,7 @@ class ConditionBase(BaseModel):
     memo: str = Field("", max_length=300, description="메모", examples=["어깨가 좀 뻐근함"])
     stress: int = Field(5, ge=1, le=10, description="스트레스 (1~10)", examples=[8])
     sleep_hours: float = Field(7.0, ge=0, le=24, description="수면 시간", examples=[5.5])
+    weight_kg: Optional[float] = Field(None, ge=20, le=300, description="몸무게 (kg, 선택)", examples=[58.4])
     goal: Optional[str] = Field(None, max_length=50, description="오늘의 목적", examples=["체지방 감량"])
 
 
@@ -25,6 +26,7 @@ class ConditionUpdate(BaseModel):
     memo: Optional[str] = Field(None, max_length=300)
     stress: Optional[int] = Field(None, ge=1, le=10)
     sleep_hours: Optional[float] = Field(None, ge=0, le=24)
+    weight_kg: Optional[float] = Field(None, ge=20, le=300)
     goal: Optional[str] = Field(None, max_length=50)
 
 
