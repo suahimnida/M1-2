@@ -2,13 +2,14 @@ const API = (window.APP_CONFIG && window.APP_CONFIG.API_URL) || "http://localhos
 const $ = (sel) => document.querySelector(sel);
 
 const LIST_LIMIT = 5;   // 이전 대화·기록 목록은 처음에 5개까지만 보여줌
+const LIST_STEP = 10;   // 더보기를 누를 때마다 추가로 보여줄 개수
 
 const state = {
   conversationId: null,
   data: [],
   convs: [],
-  dataExpanded: false,   // 기록 목록 전체 펼침 여부
-  convExpanded: false,   // 이전 대화 전체 펼침 여부
+  dataShown: LIST_LIMIT,   // 기록 목록에 지금 보여주는 개수
+  convShown: LIST_LIMIT,   // 이전 대화에 지금 보여주는 개수
   editingId: null,
   sending: false,
 };
@@ -226,7 +227,7 @@ function renderConversations() {
     $("#more-conv").hidden = true;
     return;
   }
-  const shown = state.convExpanded ? list : list.slice(0, LIST_LIMIT);
+  const shown = list.slice(0, state.convShown);
   ul.innerHTML = shown.map((c) => `
       <li class="conv-item" data-id="${esc(c.id)}">
         <button type="button" class="conv-open">
@@ -236,14 +237,20 @@ function renderConversations() {
         <button type="button" class="conv-del" aria-label="${esc(c.title)} 삭제">삭제</button>
       </li>`).join("");
   markCurrentConv();
-  updateMoreButton($("#more-conv"), list.length, state.convExpanded);
+  updateMoreButton($("#more-conv"), list.length, state.convShown);
 }
 
-// 더보기 ↔ 접기 버튼 상태
-function updateMoreButton(btn, total, expanded) {
+// 남은 게 있으면 "더보기 (남은 개수)", 다 펼쳤으면 "접기"
+function updateMoreButton(btn, total, shownCount) {
   btn.hidden = total <= LIST_LIMIT;
-  btn.textContent = expanded ? "접기" : `더보기 (${total - LIST_LIMIT}개 더)`;
-  btn.setAttribute("aria-expanded", expanded ? "true" : "false");
+  const rest = total - shownCount;
+  btn.textContent = rest > 0 ? `더보기 (${rest}개 더)` : "접기";
+  btn.setAttribute("aria-expanded", rest > 0 ? "false" : "true");
+}
+
+// 더보기: 10개씩 추가, 다 보이는 상태에서 누르면 처음 5개로 접기
+function nextShown(current, total) {
+  return current >= total ? LIST_LIMIT : current + LIST_STEP;
 }
 
 function markCurrentConv() {
@@ -375,7 +382,7 @@ function renderData() {
     $("#more-data").hidden = true;
     return;
   }
-  const shown = state.dataExpanded ? state.data : state.data.slice(0, LIST_LIMIT);
+  const shown = state.data.slice(0, state.dataShown);
   ul.innerHTML = shown.map((d) => `
     <li class="data-item" data-id="${esc(d.id)}">
       <span class="score" aria-label="컨디션 ${d.value}점">${d.value}</span>
@@ -388,7 +395,7 @@ function renderData() {
         ${d.goal ? esc(d.goal) + " · " : ""}스트레스 ${d.stress} · 수면 ${d.sleep_hours}h${d.weight_kg != null ? ` · 몸무게 ${d.weight_kg}kg` : ""}${d.memo ? " · " + esc(d.memo) : ""}
       </span>
     </li>`).join("");
-  updateMoreButton($("#more-data"), state.data.length, state.dataExpanded);
+  updateMoreButton($("#more-data"), state.data.length, state.dataShown);
 }
 
 async function loadData() {
@@ -490,11 +497,11 @@ function bindEvents() {
     btn.dataset.act === "edit" ? startEdit(id) : deleteData(id);
   });
   $("#more-data").addEventListener("click", () => {
-    state.dataExpanded = !state.dataExpanded;
+    state.dataShown = nextShown(state.dataShown, state.data.length);
     renderData();
   });
   $("#more-conv").addEventListener("click", () => {
-    state.convExpanded = !state.convExpanded;
+    state.convShown = nextShown(state.convShown, state.convs.length);
     renderConversations();
   });
 
