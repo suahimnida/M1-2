@@ -1,0 +1,107 @@
+/* 껌냥이 액터 (cat.js) 스타일 */
+
+/* 고양이 무대를 대화 영역 위에 겹쳐 놓기 위한 기준점 */
+.chat { position: relative; }
+
+.cat-stage {
+  --cat-size: 128px;
+  position: absolute;
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;        /* 무대 자체는 클릭을 통과시켜서 메시지 읽기·스크롤을 방해하지 않음 */
+  opacity: 0;
+  transition: opacity .4s ease;
+}
+.cat-stage.ready { opacity: 1; }
+
+.cat-actor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--cat-size);
+  height: var(--cat-size);
+  will-change: transform;
+}
+
+.cat-sprite {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;  /* 도트가 흐려지지 않게 */
+  image-rendering: crisp-edges;
+  pointer-events: auto;        /* 고양이만 클릭 가능 */
+  cursor: pointer;
+  border-radius: 14px;
+}
+.cat-sprite.flip { transform: scaleX(-1); }
+.cat-sprite:focus-visible { outline: 3px solid var(--amber); outline-offset: -10px; }
+
+/* 발밑 그림자: 바닥에 서 있는 느낌 */
+.cat-shadow {
+  position: absolute;
+  left: 22%;
+  right: 22%;
+  bottom: 2.5%;
+  height: 6%;
+  border-radius: 50%;
+  background: rgba(20, 16, 28, .12);
+}
+
+/* 말풍선 */
+.cat-bubble {
+  --shift: 0px;
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--cat-size) * .86);
+  width: max-content;
+  max-width: 220px;
+  padding: .45rem .75rem;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 3px 0 var(--line);
+  font-family: "Jua", "Gowun Dodum", sans-serif;
+  font-size: .92rem;
+  line-height: 1.35;
+  text-align: center;
+  opacity: 0;
+  transform: translate(calc(-50% + var(--shift)), 6px);
+  transition: opacity .2s ease, transform .2s ease;
+  pointer-events: none;
+}
+.cat-bubble::after {
+  content: "";
+  position: absolute;
+  left: calc(50% - var(--shift));
+  bottom: -7px;
+  width: 12px;
+  height: 12px;
+  background: var(--surface);
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  transform: translateX(-50%) rotate(45deg);
+}
+.cat-bubble.show {
+  opacity: 1;
+  transform: translate(calc(-50% + var(--shift)), 0);
+}
+
+/* 잘 때 떠오르는 z */
+.cat-zzz {
+  position: absolute;
+  right: 6%;
+  top: 30%;
+  font-family: "Jua", sans-serif;
+  font-size: 1.1rem;
+  color: var(--muted);
+  animation: cat-zzz 2.4s ease-in-out infinite;
+  pointer-events: none;
+}
+.cat-zzz span { font-size: .8em; margin-left: 2px; position: relative; top: -8px; }
+@keyframes cat-zzz {
+  0% { opacity: 0; transform: translate(0, 6px); }
+  30% { opacity: 1; }
+  100% { opacity: 0; transform: translate(10px, -14px); }
+}

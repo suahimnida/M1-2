@@ -164,3 +164,8 @@ http://localhost:5500 으로 접속합니다. 로컬에서는 `src/config.js`의
 
 ### 대화 기록 화면 (불러오기)
 ![대화 기록](docs/screenshot-history.png)
++
+
+
+
+

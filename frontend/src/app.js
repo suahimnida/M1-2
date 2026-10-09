@@ -105,6 +105,7 @@ function setCatMood(latest) {
 async function loadSummary() {
   try {
     const s = await api("/api/data/summary");
+    window.dispatchEvent(new CustomEvent("ggeom:summary", { detail: s })); 
     const list = $("#summary-list");
     if (!s.count) {
       list.innerHTML = `<div><dt>기록</dt><dd>아직 없음</dd></div>`;
