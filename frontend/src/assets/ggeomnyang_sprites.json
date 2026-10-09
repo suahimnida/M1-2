@@ -1,0 +1,96 @@
+{
+  "frameWidth": 64,
+  "frameHeight": 64,
+  "groundY": 60,
+  "animations": {
+    "idle": {
+      "row": 0,
+      "frames": 6,
+      "durations": [
+        220,
+        180,
+        200,
+        240,
+        180,
+        200
+      ],
+      "loop": true
+    },
+    "walk": {
+      "row": 1,
+      "frames": 8,
+      "durations": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ],
+      "loop": true
+    },
+    "groom": {
+      "row": 2,
+      "frames": 10,
+      "durations": [
+        140,
+        140,
+        260,
+        200,
+        260,
+        140,
+        240,
+        140,
+        260,
+        180
+      ],
+      "loop": true
+    },
+    "play": {
+      "row": 3,
+      "frames": 6,
+      "durations": [
+        220,
+        140,
+        140,
+        90,
+        160,
+        240
+      ],
+      "loop": false
+    },
+    "sleep": {
+      "row": 4,
+      "frames": 4,
+      "durations": [
+        520,
+        420,
+        520,
+        420
+      ],
+      "loop": true
+    },
+    "sit_to_stand": {
+      "row": 5,
+      "frames": 3,
+      "durations": [
+        110,
+        110,
+        120
+      ],
+      "loop": false
+    },
+    "blink": {
+      "row": 6,
+      "frames": 3,
+      "durations": [
+        60,
+        90,
+        70
+      ],
+      "loop": false
+    }
+  }
+}
