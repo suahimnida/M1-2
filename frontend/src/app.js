@@ -112,17 +112,26 @@ async function loadSummary() {
       setCatMood(null);
       return;
     }
-    const trendClass = s.trend === "증가" ? "trend-up" : s.trend === "감소" ? "trend-down" : "";
     const rows = [
       ["기간", `${s.period.start.slice(5)} ~ ${s.period.end.slice(5)}`],
       ["기록 수", `${s.count}일`],
       ["평균 컨디션", `${s.condition.avg} / 10`],
-      ["최근 7일", `${s.recent7_avg} <span class="${trendClass}">${s.trend}</span>`],
+      ["최근 7일", `${s.recent7_avg} (${s.trend})`],
       ["최고 / 최저", `${s.condition.max} / ${s.condition.min}`],
       ["평균 스트레스", `${s.stress_avg} (${s.stress_trend})`],
       ["평균 수면", `${s.sleep_avg}시간`],
       ["컨디션 좋은 요일", `${s.best_weekday}요일`],
     ];
+    const w = s.weight;
+    if (w) {
+      // 몸무게 추세: 증가는 빨간색, 감소는 초록색
+      const wClass = w.trend === "증가" ? "weight-up" : w.trend === "감소" ? "weight-down" : "";
+      const change = w.change7 != null ? ` ${w.change7 > 0 ? "+" : ""}${w.change7}kg` : "";
+      rows.push(["최근 몸무게", `${w.latest}kg`]);
+      rows.push(["몸무게 7회 추세", `<span class="${wClass}">${w.trend}${change}</span>`]);
+    } else {
+      rows.push(["몸무게", "기록 없음"]);
+    }
     list.innerHTML = rows.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join("");
     setCatMood(s.latest);
   } catch (e) {
@@ -157,7 +166,7 @@ function showTyping() {
   return el;
 }
 
-async function sendMessage(text) {
+async function sendMessage(text, mode = null) {
   text = text.trim();
   if (!text || state.sending) return;
   state.sending = true;
@@ -167,7 +176,7 @@ async function sendMessage(text) {
   try {
     const res = await api("/api/chat", {
       method: "POST",
-      body: JSON.stringify({ message: text, conversation_id: state.conversationId }),
+      body: JSON.stringify({ message: text, conversation_id: state.conversationId, mode }),
     });
     typing.remove();
     addMessage("assistant", res.reply);
@@ -271,6 +280,7 @@ function startEdit(id) {
   $("#f-value").value = item.value;
   $("#f-stress").value = item.stress;
   $("#f-sleep").value = item.sleep_hours;
+  $("#f-weight").value = item.weight_kg ?? "";
   $("#f-goal").value = item.goal || "회복";
   $("#f-memo").value = item.memo || "";
   $("#o-value").textContent = item.value;
@@ -296,6 +306,7 @@ async function submitData(e) {
     value: Number($("#f-value").value),
     stress: Number($("#f-stress").value),
     sleep_hours: Number($("#f-sleep").value),
+    weight_kg: $("#f-weight").value === "" ? null : Number($("#f-weight").value),
     goal: $("#f-goal").value,
     memo: $("#f-memo").value.trim(),
   };
@@ -311,7 +322,7 @@ async function submitData(e) {
     }
     if (payload.stress >= 7) {
       formMsg($("#form-msg").textContent + " 스트레스가 높아서 껌냥이가 음악을 고르고 있어요.");
-      setTimeout(loadPlaylists, 6000);
+      waitForPlaylist(payload.date);
     }
     resetForm();
     await Promise.all([loadData(), loadSummary()]);
@@ -351,7 +362,7 @@ function renderData() {
         <button type="button" data-act="del">삭제</button>
       </span>
       <span class="data-meta">
-        ${d.goal ? esc(d.goal) + " · " : ""}<span class="${d.stress >= 7 ? "hot" : ""}">스트레스 ${d.stress}</span> · 수면 ${d.sleep_hours}h${d.memo ? " · " + esc(d.memo) : ""}
+        ${d.goal ? esc(d.goal) + " · " : ""}스트레스 ${d.stress} · 수면 ${d.sleep_hours}h${d.weight_kg != null ? ` · 몸무게 ${d.weight_kg}kg` : ""}${d.memo ? " · " + esc(d.memo) : ""}
       </span>
     </li>`).join("");
   $("#more-data").hidden = state.data.length <= state.dataShown;
@@ -367,6 +378,22 @@ async function loadData() {
 }
 
 /* ---------- 스트레스 날 음악 ---------- */
+// AI가 곡을 고르는 데 시간이 걸려서, 해당 날짜 목록이 생길 때까지 몇 번 다시 확인
+async function waitForPlaylist(date, tries = 20) {
+  for (let i = 0; i < tries; i++) {
+    await new Promise((r) => setTimeout(r, 3000));
+    try {
+      const lists = await api("/api/playlists");
+      if (lists.some((p) => p.date === date)) {
+        await loadPlaylists();
+        formMsg(`${date} 스트레스 날 음악이 저장됐어요.`);
+        return;
+      }
+    } catch { /* 다음 시도 */ }
+  }
+  formMsg("음악 저장이 늦어지고 있어요. 잠시 후 새로고침해 보세요.");
+}
+
 async function loadPlaylists() {
   const box = $("#playlists");
   try {
@@ -419,7 +446,7 @@ function bindEvents() {
     input.style.height = input.scrollHeight + "px";
   });
   document.querySelectorAll(".chip").forEach((chip) =>
-    chip.addEventListener("click", () => sendMessage(chip.dataset.q)));
+    chip.addEventListener("click", () => sendMessage(chip.dataset.q, chip.dataset.mode)));
 
   $("#new-chat").addEventListener("click", newChat);
   $("#conv-list").addEventListener("click", (e) => {

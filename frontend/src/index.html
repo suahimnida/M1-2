@@ -69,9 +69,9 @@
         </div>
       </div>
       <div class="quick">
-        <button type="button" class="chip" data-q="오늘 내 컨디션에 맞는 운동을 추천해줘">오늘 운동 추천</button>
-        <button type="button" class="chip" data-q="지금 내 상태에 좋은 건강 주스 레시피 알려줘">주스 레시피</button>
-        <button type="button" class="chip" data-q="최근 2주 동안 내 컨디션이 어떻게 변했는지 분석해줘">최근 흐름 분석</button>
+        <button type="button" class="chip" data-mode="workout" data-q="오늘 운동 추천">오늘 운동 추천</button>
+        <button type="button" class="chip" data-mode="juice" data-q="주스 레시피">주스 레시피</button>
+        <button type="button" class="chip" data-mode="trend" data-q="최근 흐름 분석">최근 흐름 분석</button>
       </div>
       <form id="chat-form" class="chat-form">
         <label for="chat-input" class="sr-only">메시지</label>
@@ -96,6 +96,9 @@
         </label>
         <div class="two">
           <label>수면(시간)<input type="number" id="f-sleep" min="0" max="24" step="0.5" value="7" /></label>
+          <label>몸무게(kg)<input type="number" id="f-weight" min="20" max="300" step="0.1" placeholder="예: 58.4" /></label>
+        </div>
+        <div class="one">
           <label>오늘의 목적
             <select id="f-goal">
               <option>체지방 감량</option><option>근력 강화</option><option>체력 향상</option>

@@ -106,7 +106,7 @@
   top: 30%;
   font-family: "Jua", sans-serif;
   font-size: 1.1rem;
-  color: var(--muted);
+  color: var(--text);
   animation: cat-zzz 2.4s ease-in-out infinite;
   pointer-events: none;
 }
@@ -123,7 +123,7 @@
   width: 14px;
   height: 14px;
   margin: -7px 0 0 -7px;       /* 발 위치가 발자국 중심이 되게 */
-  color: var(--muted);
+  color: #8f8c99;               /* 발자국은 글자가 아니라서 회색 유지 */
   fill: currentColor;
   transform: rotate(var(--angle));
   pointer-events: none;
