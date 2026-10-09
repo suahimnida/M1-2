@@ -91,6 +91,19 @@
         70
       ],
       "loop": false
+    },
+    "held": {
+      "row": 7,
+      "frames": 6,
+      "durations": [
+        260,
+        260,
+        260,
+        260,
+        260,
+        260
+      ],
+      "loop": true
     }
   }
 }

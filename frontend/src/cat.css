@@ -31,11 +31,21 @@
   image-rendering: pixelated;  /* 도트가 흐려지지 않게 */
   image-rendering: crisp-edges;
   pointer-events: auto;        /* 고양이만 클릭 가능 */
-  cursor: pointer;
+  cursor: grab;
   border-radius: 14px;
+  touch-action: none;          /* 고양이 위에서는 스크롤 대신 드래그 */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none; /* iOS에서 꾹 누를 때 메뉴 방지 */
 }
 .cat-sprite.flip { transform: scaleX(-1); }
 .cat-sprite:focus-visible { outline: 3px solid var(--amber); outline-offset: -10px; }
+
+/* 들려 있는 동안 */
+.cat-actor.held { z-index: 3; }
+.cat-actor.held .cat-sprite { cursor: grabbing; filter: drop-shadow(0 10px 6px rgba(20, 16, 28, .18)); }
+.cat-actor.held .cat-shadow { opacity: 0; }
+.cat-actor.held .cat-bubble { bottom: calc(var(--cat-size) * 1.02); }
 
 /* 발밑 그림자: 바닥에 서 있는 느낌 */
 .cat-shadow {
@@ -46,6 +56,7 @@
   height: 6%;
   border-radius: 50%;
   background: rgba(20, 16, 28, .12);
+  transition: opacity .15s ease;
 }
 
 /* 말풍선 */
@@ -104,4 +115,23 @@
   0% { opacity: 0; transform: translate(0, 6px); }
   30% { opacity: 1; }
   100% { opacity: 0; transform: translate(10px, -14px); }
+}
+
+/* 걸어간 자리에 남는 회색 발자국 (3초 뒤 사라짐) */
+.cat-paw {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;       /* 발 위치가 발자국 중심이 되게 */
+  color: var(--muted);
+  fill: currentColor;
+  transform: rotate(var(--angle));
+  pointer-events: none;
+  animation: cat-paw 3s linear forwards;
+}
+@keyframes cat-paw {
+  0% { opacity: 0; }
+  8% { opacity: .55; }
+  65% { opacity: .45; }
+  100% { opacity: 0; }
 }
