@@ -16,6 +16,21 @@ app = FastAPI(
     version="1.0.0",
 )
 
+logger = logging.getLogger("ggeomnyang")
+
+
+# 처리 못 한 에러도 JSON 응답으로 바꾼다.
+# CORS 미들웨어보다 먼저 등록해야 안쪽에 위치해서, 500 응답에도 CORS 헤더가 붙는다.
+# (그렇지 않으면 서버 에러가 브라우저에서 'CORS policy' 에러로 잘못 보인다)
+@app.middleware("http")
+async def catch_errors(request: Request, call_next):
+    try:
+        return await call_next(request)
+    except Exception as exc:
+        logger.exception("처리 중 에러: %s %s", request.method, request.url.path)
+        return JSONResponse(status_code=500, content={"detail": f"서버 에러: {type(exc).__name__}: {exc}"})
+
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=config.CORS_ORIGINS,

@@ -20,12 +20,29 @@ def _serialize(payload: dict) -> dict:
     return payload
 
 
+def _normalize(doc: dict) -> dict:
+    """Firestore 콘솔에서 직접 고친 값도 읽을 수 있게 형식을 맞춘다."""
+    d = dict(doc)
+    if hasattr(d.get("date"), "isoformat"):            # 타임스탬프로 저장된 날짜
+        d["date"] = d["date"].isoformat()[:10]
+    for k in ("value", "stress"):
+        if isinstance(d.get(k), str) and d[k].strip().lstrip("-").isdigit():
+            d[k] = int(d[k])
+    for k in ("sleep_hours", "weight_kg"):
+        if isinstance(d.get(k), str):
+            try:
+                d[k] = float(d[k]) if d[k].strip() else None
+            except ValueError:
+                pass
+    return d
+
+
 def list_data(limit: Optional[int] = None) -> List[dict]:
     """날짜 최신순."""
     query = _col().order_by("date", direction=firestore.Query.DESCENDING)
     if limit:
         query = query.limit(limit)
-    return [{"id": snap.id, **snap.to_dict()} for snap in query.stream()]
+    return [{"id": snap.id, **_normalize(snap.to_dict())} for snap in query.stream()]
 
 
 def get_data(doc_id: str) -> Optional[dict]:
