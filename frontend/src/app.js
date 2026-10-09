@@ -240,11 +240,12 @@ function renderConversations() {
   updateMoreButton($("#more-conv"), list.length, state.convShown);
 }
 
-// 남은 게 있으면 "더보기 (남은 개수)", 다 펼쳤으면 "접기"
+// 남은 게 있으면 "더보기 (+추가될 개수)", 다 펼쳤으면 "접기"
 function updateMoreButton(btn, total, shownCount) {
   btn.hidden = total <= LIST_LIMIT;
   const rest = total - shownCount;
-  btn.textContent = rest > 0 ? `더보기 (${rest}개 더)` : "접기";
+  // 다음에 추가될 개수: 보통 10개, 10개 미만이 남았으면 남은 만큼
+  btn.textContent = rest > 0 ? `더보기 (+${Math.min(LIST_STEP, rest)}개)` : "접기";
   btn.setAttribute("aria-expanded", rest > 0 ? "false" : "true");
 }
 
