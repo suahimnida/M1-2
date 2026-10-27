@@ -26,10 +26,10 @@
 > 과제 안내의 OpenAI(GPT) 대신, 교육 과정에서 제공하는 코디세이 API의 Claude 모델을 사용했습니다. 데이터 요약을 시스템 프롬프트에 주입하는 구조는 동일합니다.
 
 ## 배포 URL
+m1-2-frontend-orpin.vercel.app
 
-- 프론트엔드: https://YOUR-PROJECT.vercel.app
-- 백엔드 API: https://YOUR-SERVICE.onrender.com
-- Swagger UI: https://YOUR-SERVICE.onrender.com/docs
+- 프론트엔드: https://m1-2-frontend-orpin.vercel.app
+- 백엔드 API: https://m1-2-d49o.onrender.com
 
 > Render 무료 티어는 15분 동안 요청이 없으면 서버가 잠듭니다. 첫 접속 시 프론트엔드가 `/health`로 서버를 깨우고, 2.5초 이상 걸리면 "서버를 깨우는 중" 안내 배너를 띄운 뒤 자동으로 재시도합니다.
 
