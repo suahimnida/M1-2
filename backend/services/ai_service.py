@@ -1,4 +1,4 @@
-"""Gemini API 호출. 데이터 요약을 시스템 프롬프트에 주입한다(컨텍스트 주입).
+"""Claude API 호출 (코디세이 Anthropic 호환 프록시). 데이터 요약을 시스템 프롬프트에 주입한다(컨텍스트 주입).
 
 - 빠른 버튼(mode)으로 온 요청만 운동 추천 / 주스 레시피 / 흐름 분석을 해준다.
 - 일반 채팅은 메시지에 맞게 답하고, 위 세 주제를 언급하면 해당 버튼을 누르라고 권한다.
@@ -9,8 +9,7 @@ import time
 from functools import lru_cache
 from typing import List, Optional
 
-from google import genai
-from google.genai import errors, types
+import anthropic
 
 from core import config
 from core.utils import today_kst
@@ -68,32 +67,61 @@ TOPIC_KEYWORDS = {
 TOPIC_BUTTON = {"workout": "오늘 운동 추천", "juice": "주스 레시피", "trend": "최근 흐름 분석"}
 
 HISTORY_LIMIT = 20
-RETRY_CODES = {429, 500, 503}
+RETRY_CODES = {429, 500, 502, 503, 504, 529}   # 529: Claude 과부하
+MAX_TOKENS = 1500
+
+
+def _base_url() -> str:
+    """주소 끝에 /v1이 붙어 있으면 뗀다 (SDK가 /v1/messages를 직접 붙이기 때문)."""
+    url = config.ANTHROPIC_BASE_URL.strip().rstrip("/")
+    return url[:-3] if url.endswith("/v1") else url
 
 
 @lru_cache
-def _client() -> genai.Client:
-    if not config.GEMINI_API_KEY:
-        raise RuntimeError("GEMINI_API_KEY가 설정되지 않았습니다.")
-    return genai.Client(api_key=config.GEMINI_API_KEY)
+def _client() -> anthropic.Anthropic:
+    if not (config.ANTHROPIC_API_KEY or config.ANTHROPIC_AUTH_TOKEN):
+        raise RuntimeError("ANTHROPIC_API_KEY 또는 ANTHROPIC_AUTH_TOKEN이 설정되지 않았습니다.")
+    return anthropic.Anthropic(
+        base_url=_base_url(),
+        # 둘 중 있는 값 하나만 넘긴다 (SDK 2.x는 어느 쪽이든 Authorization: Bearer로 전송)
+        api_key=config.ANTHROPIC_API_KEY or None,
+        auth_token=None if config.ANTHROPIC_API_KEY else (config.ANTHROPIC_AUTH_TOKEN or None),
+        timeout=60.0,
+        max_retries=0,   # 재시도는 아래 _create()에서 직접 관리
+    )
 
 
-def _generate(**kwargs):
+def _status(e: Exception):
+    if isinstance(e, anthropic.APIStatusError):
+        return e.status_code
+    if isinstance(e, (anthropic.APIConnectionError, anthropic.APITimeoutError)):
+        return 503   # 연결 실패·시간 초과도 일시적인 문제로 보고 재시도
+    return None
+
+
+def _create(**kwargs):
     """기본 모델은 1번 재시도, 예비 모델은 쉬지 않고 1번씩 시도한다."""
     primary = kwargs.pop("model")
-    plan = [(primary, 2)] + [(m, 1) for m in config.GEMINI_FALLBACK_MODELS]
+    plan = [(primary, 2)] + [(m, 1) for m in config.ANTHROPIC_FALLBACK_MODELS if m != primary]
     last_error = None
     for model, tries in plan:
         for attempt in range(tries):
             try:
-                return _client().models.generate_content(model=model, **kwargs)
-            except errors.APIError as e:
+                return _client().messages.create(model=model, max_tokens=MAX_TOKENS, **kwargs)
+            except (anthropic.APIStatusError, anthropic.APIConnectionError) as e:
                 last_error = e
-                if e.code not in RETRY_CODES:
-                    break  # 404 등 이 모델은 못 쓰는 경우 → 바로 다음 모델로
+                code = _status(e)
+                if code not in RETRY_CODES and code != 404:
+                    raise   # 401 인증 오류 등은 다른 모델로 바꿔도 소용없음
+                if code == 404:
+                    break   # 이 모델 이름을 못 찾음 → 바로 다음 모델로
                 if attempt < tries - 1:
                     time.sleep(2)
     raise last_error
+
+
+def _text(res) -> str:
+    return "".join(b.text for b in res.content if getattr(b, "type", "") == "text").strip()
 
 
 def detect_topics(message: str) -> List[str]:
@@ -113,28 +141,28 @@ def build_system_prompt(summary_text: str, mode: Optional[str] = None, topics: O
     return BASE_TEMPLATE.format(today=today_kst(), summary=summary_text, task=task)
 
 
-def _to_content(role: str, text: str) -> types.Content:
-    # Gemini는 assistant 대신 "model"이라는 역할 이름을 쓴다
-    return types.Content(
-        role="model" if role == "assistant" else "user",
-        parts=[types.Part(text=text)],
-    )
+def _to_messages(history: List[dict], user_message: str) -> List[dict]:
+    """Claude는 user/assistant가 번갈아 와야 하므로 같은 역할이 연속되면 합친다."""
+    msgs: List[dict] = []
+    for m in history[-HISTORY_LIMIT:] + [{"role": "user", "content": user_message}]:
+        role = "assistant" if m["role"] == "assistant" else "user"
+        if msgs and msgs[-1]["role"] == role:
+            msgs[-1]["content"] += "\n\n" + m["content"]
+        else:
+            msgs.append({"role": role, "content": m["content"]})
+    while msgs and msgs[0]["role"] != "user":   # 첫 메시지는 user여야 함
+        msgs.pop(0)
+    return msgs
 
 
 def chat(summary_text: str, history: List[dict], user_message: str, mode: Optional[str] = None) -> str:
     topics = [] if mode else detect_topics(user_message)
-    contents = [_to_content(m["role"], m["content"]) for m in history[-HISTORY_LIMIT:]]
-    contents.append(_to_content("user", user_message))
-
-    res = _generate(
-        model=config.GEMINI_MODEL,
-        contents=contents,
-        config=types.GenerateContentConfig(
-            system_instruction=build_system_prompt(summary_text, mode, topics),
-            temperature=0.7,
-        ),
+    res = _create(
+        model=config.ANTHROPIC_MODEL,
+        system=build_system_prompt(summary_text, mode, topics),
+        messages=_to_messages(history, user_message),
     )
-    reply = (res.text or "").strip()
+    reply = _text(res)
 
     # AI가 버튼 안내를 빠뜨렸으면 직접 덧붙인다
     missing = [t for t in topics if TOPIC_BUTTON[t] not in reply]
@@ -145,11 +173,18 @@ def chat(summary_text: str, history: List[dict], user_message: str, mode: Option
 
 
 def _parse_songs(text: Optional[str]) -> List[dict]:
-    """Gemini가 객체, 배열, ```json 코드블록 등 어떤 형태로 줘도 곡 목록을 꺼낸다."""
+    """AI가 객체, 배열, ```json 코드블록 등 어떤 형태로 줘도 곡 목록을 꺼낸다."""
     if not text:
         return []
     text = re.sub(r"^```(?:json)?\s*|\s*```$", "", text.strip())
-    data = json.loads(text)
+    try:
+        data = json.loads(text)
+    except json.JSONDecodeError:
+        # 앞뒤에 설명 문장이 붙은 경우 첫 { 또는 [ 부터 마지막 } 또는 ] 까지만 읽는다
+        m = re.search(r"[\[{].*[\]}]", text, re.S)
+        if not m:
+            return []
+        data = json.loads(m.group(0))
     songs = data.get("songs", []) if isinstance(data, dict) else data
     if not isinstance(songs, list):
         return []
@@ -170,14 +205,11 @@ def generate_playlist(entry: dict) -> List[dict]:
         f"수면 {entry.get('sleep_hours')}시간이고 메모는 '{entry.get('memo') or '없음'}'이야.\n"
         "긴장을 풀고 기분을 전환할 수 있는 실제로 존재하는 유명한 곡 5개를 추천해. "
         "한국 곡과 해외 곡을 섞어 줘. 가사는 쓰지 마.\n"
-        '{"songs": [{"title": "곡명", "artist": "아티스트", "reason": "추천 이유 한 문장"}]} 형식으로 답해.'
+        '반드시 {"songs": [{"title": "곡명", "artist": "아티스트", "reason": "추천 이유 한 문장"}]} 형식의 JSON만 출력해.'
     )
-    res = _generate(
-        model=config.GEMINI_MODEL,
-        contents=prompt,
-        config=types.GenerateContentConfig(
-            response_mime_type="application/json",  # JSON만 돌려받기
-            temperature=0.8,
-        ),
+    res = _create(
+        model=config.ANTHROPIC_MODEL,
+        system="너는 음악 추천기야. 설명 없이 JSON 객체 하나만 출력해.",
+        messages=[{"role": "user", "content": prompt}],
     )
-    return _parse_songs(res.text)
+    return _parse_songs(_text(res))
