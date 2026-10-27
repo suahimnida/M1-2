@@ -131,23 +131,23 @@ python -m http.server 5500
 
 ### 백엔드 (Render)
 
-| 이름 | 필수 | 설명 |
-|---|---|---|
-| `ANTHROPIC_API_KEY` | O | 코디세이 Anthropic 호환 API 키 |
-| `ANTHROPIC_BASE_URL` | | 기본값 `https://copa.codyssey.kr` |
-| `FIREBASE_CREDENTIALS` | O (배포) | 서비스 계정 키 JSON 전체를 한 줄 문자열로 |
-| `FIREBASE_CREDENTIALS_PATH` | O (로컬) | 서비스 계정 키 파일 경로 |
-| `CORS_ORIGINS` | O | 허용할 프론트 주소, 쉼표로 구분 |
-| `ANTHROPIC_MODEL` | | 기본값 `claude-sonnet-4` |
-| `ANTHROPIC_FALLBACK_MODELS` | | 기본 모델이 혼잡할 때 쓸 예비 모델, 기본값 `claude-haiku-4` |
-| `FIRESTORE_DATABASE_ID` | | Firestore 데이터베이스 ID, 이 프로젝트는 `default` |
-| `STRESS_THRESHOLD` | | 음악 자동 저장 기준, 기본값 `7` |
+| 이름 | 설명 |
+|---|---|
+| `ANTHROPIC_API_KEY` |코디세이 Anthropic 호환 API 키 |
+| `ANTHROPIC_BASE_URL` | 기본값 `https://copa.codyssey.kr` |
+| `FIREBASE_CREDENTIALS` | 서비스 계정 키 JSON 전체를 한 줄 문자열로 |
+| `FIREBASE_CREDENTIALS_PATH` | 서비스 계정 키 파일 경로 |
+| `CORS_ORIGINS` | 허용할 프론트 주소, 쉼표로 구분 |
+| `ANTHROPIC_MODEL` | 기본값 `claude-sonnet-4` |
+| `ANTHROPIC_FALLBACK_MODELS` | 기본 모델이 혼잡할 때 쓸 예비 모델, 기본값 `claude-haiku-4` |
+| `FIRESTORE_DATABASE_ID` | Firestore 데이터베이스 ID, 이 프로젝트는 `default` |
+| `STRESS_THRESHOLD` | 음악 자동 저장 기준, 기본값 `7` |
 
 ### 프론트엔드 (Vercel)
 
-| 이름 | 필수 | 설명 |
-|---|---|---|
-| `API_URL` | O | 백엔드 주소 |
+| 이름 |설명 |
+|---|---|
+| `API_URL` | 백엔드 주소 |
 
 ## 스크린샷
 
