@@ -8,7 +8,7 @@
 <br>AI의 시스템 프롬프트에 주입하여 기록을 근거로 한 맞춤 대화를 할 수 있습니다.</br>
 
 - **매일 컨디션 체크**
-  <br>: 날짜, 컨디션(1~10), 스트레스(1~10), 수면 시간, 오늘의 목적, 메모 기록</br>
+  <br>: 날짜, 컨디션, 스트레스, 수면 시간, 오늘의 목적, 메모 기록</br>
 - **맞춤 운동 추천**
   <br>: 컨디션이 낮거나 수면이 부족하면 회복 위주로, 좋으면 목적에 맞는 강도로</br>
 - **건강 주스 레시피 추천**
@@ -36,7 +36,7 @@ m1-2-frontend-orpin.vercel.app
 - 프론트엔드
   <br>: https://m1-2-frontend-orpin.vercel.app</br>
 - 백엔드 API
-  : https://m1-2-d49o.onrender.com</br>
+  <br>: https://m1-2-d49o.onrender.com</br>
 
 ## 프로젝트 구조
 
@@ -95,37 +95,6 @@ frontend/
 | GET | `/api/playlists` | 자동 저장된 음악 목록 |
 | DELETE | `/api/playlists/{id}` | 음악 목록 삭제 |
 | GET | `/health` | 상태 확인 / 서버 깨우기 |
-
-## 로컬 실행 방법
-
-### 1. 사전 준비
-
-1. Firebase 콘솔에서 프로젝트를 만들고 Firestore Database를 생성합니다.
-2. 프로젝트 설정 > 서비스 계정 > 새 비공개 키 생성으로 JSON 키를 받아
-   <br>`backend/serviceAccountKey.json`으로 저장합니다. (이 파일은 `.gitignore`에 포함되어 있습니다)</br>
-3. 코디세이에서 Anthropic 호환 API 키(또는 토큰)를 발급받습니다.
-
-### 2. 백엔드
-
-```bash
-cd backend
-python -m venv venv
-venv\Scripts\activate
-pip install -r requirements.txt
-cp .env.example .env
-
-python scripts/generate_sample_data.py
-python scripts/upload_sample_data.py
-
-uvicorn main:app --reload
-```
-
-### 3. 프론트엔드
-
-```bash
-cd frontend/src
-python -m http.server 5500
-```
 
 ## 환경 변수
 
