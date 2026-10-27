@@ -19,9 +19,11 @@
 |---|---|
 | 백엔드 | Python 3.11, FastAPI, Pydantic v2, Uvicorn |
 | 데이터베이스 | Firebase Firestore (firebase-admin) |
-| AI | OpenAI Chat Completions API (gpt-4o-mini) |
+| AI | Claude (Anthropic Messages API, 코디세이 API 프록시 경유, `claude-sonnet-4` / 예비 `claude-haiku-4`) |
 | 프론트엔드 | HTML, CSS, JavaScript (프레임워크 없음) |
 | 배포 | Render (백엔드), Vercel (프론트엔드) |
+
+> 과제 안내의 OpenAI(GPT) 대신, 교육 과정에서 제공하는 코디세이 API의 Claude 모델을 사용했습니다. 데이터 요약을 시스템 프롬프트에 주입하는 구조는 동일합니다.
 
 ## 배포 URL
 
@@ -39,7 +41,7 @@ backend/
 ├── core/                   # 환경변수, Firestore 연결, 공통 유틸
 ├── schemas/                # Pydantic 요청/응답 모델 (검증)
 ├── routers/                # data, conversations, chat, playlists
-├── services/               # DB 처리, 요약 분석, OpenAI 호출
+├── services/               # DB 처리, 요약 분석, Claude 호출
 ├── scripts/                # 샘플 데이터 생성, Firestore 업로드
 └── sample_data/            # 생성된 샘플 데이터 (127일치)
 frontend/
@@ -79,7 +81,7 @@ frontend/
 | GET | `/api/conversations` | 대화 목록 (messages 미포함, 개수·미리보기만) |
 | GET | `/api/conversations/{id}` | 특정 대화의 전체 messages 조회 (방식 A) |
 | DELETE | `/api/conversations/{id}` | 대화 삭제 |
-| POST | `/api/chat` | AI 대화 (요약 조회 → 시스템 프롬프트 주입 → GPT 호출 → 자동 저장) |
+| POST | `/api/chat` | AI 대화 (요약 조회 → 시스템 프롬프트 주입 → Claude 호출 → 자동 저장) |
 | GET | `/api/playlists` | 자동 저장된 음악 목록 |
 | DELETE | `/api/playlists/{id}` | 음악 목록 삭제 |
 | GET | `/health` | 상태 확인 / 서버 깨우기 |
@@ -90,7 +92,7 @@ frontend/
 
 1. Firebase 콘솔에서 프로젝트를 만들고 Firestore Database를 생성합니다.
 2. 프로젝트 설정 > 서비스 계정 > 새 비공개 키 생성으로 JSON 키를 받아 `backend/serviceAccountKey.json`으로 저장합니다. (이 파일은 `.gitignore`에 포함되어 있습니다)
-3. OpenAI API 키를 준비합니다.
+3. 코디세이에서 Anthropic 호환 API 키(또는 토큰)를 발급받습니다.
 
 ### 2. 백엔드
 
@@ -124,11 +126,14 @@ http://localhost:5500 으로 접속합니다. 로컬에서는 `src/config.js`의
 
 | 이름 | 필수 | 설명 |
 |---|---|---|
-| `OPENAI_API_KEY` | O | OpenAI API 키 |
+| `ANTHROPIC_API_KEY` | O | 코디세이 Anthropic 호환 API 키 (토큰으로 받았다면 대신 `ANTHROPIC_AUTH_TOKEN`) |
+| `ANTHROPIC_BASE_URL` | | 기본값 `https://copa.codyssey.kr` (끝에 `/v1`을 붙이지 않음) |
 | `FIREBASE_CREDENTIALS` | O (배포) | 서비스 계정 키 JSON 전체를 한 줄 문자열로 |
 | `FIREBASE_CREDENTIALS_PATH` | O (로컬) | 서비스 계정 키 파일 경로 |
 | `CORS_ORIGINS` | O | 허용할 프론트 주소, 쉼표로 구분 (예: `https://your-project.vercel.app`) |
-| `OPENAI_MODEL` | | 기본값 `gpt-4o-mini` |
+| `ANTHROPIC_MODEL` | | 기본값 `claude-sonnet-4` |
+| `ANTHROPIC_FALLBACK_MODELS` | | 기본 모델이 혼잡할 때 쓸 예비 모델, 기본값 `claude-haiku-4` |
+| `FIRESTORE_DATABASE_ID` | | Firestore 데이터베이스 ID, 이 프로젝트는 `default` |
 | `STRESS_THRESHOLD` | | 음악 자동 저장 기준, 기본값 `7` |
 
 ### 프론트엔드 (Vercel)
@@ -165,7 +170,3 @@ http://localhost:5500 으로 접속합니다. 로컬에서는 `src/config.js`의
 ### 대화 기록 화면 (불러오기)
 ![대화 기록](docs/screenshot-history.png)
 +
-
-
-
-
